@@ -8,12 +8,10 @@ class Provero4ka:
         self.types = types
 
     def check(self):
-        """Проверяет наличие файла."""
         if not os.path.exists(self.file):
             raise FileNotFoundError(f"Ошибка: Файл {self.file} не найден.")
 
     def load(self):
-        """Загружает данные и проверяет, не пустые ли они."""
         try:
             df = pd.read_csv(self.file)
             if df.empty:
@@ -27,7 +25,6 @@ class Provero4ka:
             raise RuntimeError(f"Ошибка загрузки: {str(e)}")
 
     def structure(self, df):
-        """Проверяет структуру данных."""
         actual_cols = df.columns.tolist()
         if actual_cols != self.columns:
             raise ValueError(f"Ошибка: Ожидались {self.columns}, получены {actual_cols}")
@@ -39,7 +36,6 @@ class Provero4ka:
                     raise TypeError(f"Ошибка: Столбец '{col}' — ожидался {expected_type}, получен {actual_type}")
 
     def process(self):
-        """Запускает проверку данных."""
         self.check()
         df = self.load()
         self.structure(df)
